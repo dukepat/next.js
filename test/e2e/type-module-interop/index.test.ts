@@ -12,10 +12,24 @@ describe('Type module interop', () => {
       files: {
         'pages/index.js': `
           import Link from 'next/link'
+          import Head from 'next/head'
+          import Script from 'next/script'
 
           export default function Page() { 
             return (
               <>
+                <Head>
+                  <title>This page has a title 🤔</title>
+                  <meta charSet="utf-8" />
+                  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                  <Script
+                    id="stripe-js"
+                    src="https://js.stripe.com/v3/"
+                    onLoad={() => {
+                      setStripe({ stripe: window.Stripe('pk_test_12345') })
+                    }}
+                  />
+                </Head>
                 <p>hello world</p>
                 <Link href="/modules">
                   <a id="link-to-module">link to module</a>
