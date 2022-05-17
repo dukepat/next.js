@@ -105,7 +105,11 @@ function getBaseSWCOptions({
         }
       : null,
     removeConsole: nextConfig?.compiler?.removeConsole,
-    reactRemoveProperties: nextConfig?.compiler?.reactRemoveProperties,
+    // disable "reactRemoveProperties" when "jest" is true
+    // otherwise the setting from next.config.js will be used
+    reactRemoveProperties: jest
+      ? false
+      : nextConfig?.compiler?.reactRemoveProperties,
     modularizeImports: nextConfig?.experimental?.modularizeImports,
     relay: nextConfig?.compiler?.relay,
     emotion: getEmotionOptions(nextConfig, development),
@@ -145,6 +149,7 @@ export function getJestSWCOptions({
   esm,
   nextConfig,
   jsConfig,
+  pagesDir,
   // This is not passed yet as "paths" resolving needs a test first
   // resolvedBaseUrl,
 }) {
@@ -174,6 +179,7 @@ export function getJestSWCOptions({
     },
     disableNextSsg: true,
     disablePageConfig: true,
+    pagesDir,
   }
 }
 
